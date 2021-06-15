@@ -142,7 +142,7 @@ PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j A
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o $eth -j MASQUERADE
 ListenPort = 6666
 DNS = 8.8.8.8
-MTU = 1420
+MTU = 1400
 [Peer]
 PublicKey = GYN9dZIVm2yVmQBL03vEpg//8hPmEahZUrzizQF5lng=
 AllowedIPs = 10.77.0.2/32
@@ -153,7 +153,7 @@ cat > /etc/wireguard/client.conf <<-EOF
 PrivateKey = 0JPy8wEFTtiyzRMDx6XminE0ZMasrGLlZnN1fqg3TlM=
 Address = 10.77.0.2/24 
 DNS = 8.8.8.8
-MTU = 1420
+MTU = 1400
 [Peer]
 PublicKey = Dvgav/xxemKv2uiTEAJid13NGaKplTI7RYJBgn+Dfgo=
 Endpoint = $serverip:6666
@@ -166,7 +166,9 @@ EOF
     green "电脑端请下载/etc/wireguard/client.conf文件，手机端可直接使用软件扫码"
     green "${content}" | qrencode -o - -t UTF8
     red "注意：本次安装必须重启一次, wireguard才能正常使用"
-    read -p "是否现在重启 ? [Y/n] :" yn
+    #read -p "是否现在重启 ? [Y/n] :" yn
+    green "R订制自动选择y"  
+    yn="y"
     [ -z "${yn}" ] && yn="y"
     if [[ $yn == [Yy] ]]; then
         echo -e "VPS 重启中..."
@@ -244,7 +246,9 @@ function start_menu(){
     green "4. 增加用户"
     red "0. 退出"
     echo
-    read -p "请选择:" num
+    #read -p "请选择:" num
+    green "R订制自动选择1"  
+    num=1
     case "$num" in
         1)
         check_selinux
@@ -274,3 +278,4 @@ function start_menu(){
 }
 
 start_menu
+
